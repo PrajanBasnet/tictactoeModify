@@ -16,18 +16,20 @@ const winCondition = [
 ];
 let runGame = true;
 let currentPlayer = "x";
+let flag = 0;
 
 let options = ["", "", "", "", "", "", "", "", ""];
+
 
 cell.forEach((cell) => {
   cell.addEventListener("click", handleclick,{once:turn});
 });
-
 function handleclick(e) {
   let currentPosition = this.getAttribute("mydata");
+if(runGame){
   updateCell(this, currentPosition);
   turn.textContent = `Player : ${currentPlayer}`;
-
+}
 }
 
 function updateCell(cell, index) {
@@ -50,16 +52,24 @@ function checkWin() {
     let cellC = winCondition[i][2];
 
     if (options[cellA] == "x" && options[cellB] == "x" && options[cellC] == "x") {
-        output.textContent = `Player : wins`;
-
+        output.textContent = `Player : X wins`;
+        runGame = false;
+        flag += 1;
+        console.log(flag);
 
     } else if ( options[cellA] == "o" &&  options[cellB] == "o" && options[cellC] == "o") {
-      console.log("o wins");
+     
+        output.textContent = `Player : O  wins`;
+        flag += 1;
+        runGame = false;    
+        console.log(flag);
+
     }
-    else if(!options.includes("")) {
-      console.log("draw");
-    }
-  }
+}
+if((!options.includes("")) && flag == 0) {
+    output.textContent = "Game is draw press restart button";
+}
+
 }
 
 function restartGame() {
